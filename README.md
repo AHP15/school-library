@@ -67,8 +67,6 @@ This is a command line ruby app  for a School library
   </ul>
 </details>
 
-<details>
-
 <!-- Features -->
 
 ### Key Features <a name="key-features"></a>
