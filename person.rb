@@ -1,3 +1,5 @@
+require_relative './rental.rb'
+
 class Nameable
   def correct_name
     raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
@@ -50,8 +52,9 @@ class Person < Nameable
     @name
   end
 
-  def add_rentals(rental)
-    @rentals.push(rental)
+  def add_rentals(date, book)
+    new_rental = Rental.new(date, book, self)
+    @rentals.push(new_rental)
   end
 
   private
