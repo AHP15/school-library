@@ -38,7 +38,7 @@ class Person < Nameable
     @parent_permission = parent_permission
   end
 
-  attr_reader :id, :name, :age
+  attr_reader :id, :name, :age, :rentals
 
   def can_use_services?
     of_age? || @parent_permission
