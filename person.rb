@@ -1,3 +1,5 @@
+require_relative './rental'
+
 class Nameable
   def correct_name
     raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
@@ -36,9 +38,11 @@ class Person < Nameable
     @age = age
     @name = name
     @parent_permission = parent_permission
+    @rentals = []
   end
 
-  attr_reader :id, :name, :age
+  attr_reader :id
+  attr_accessor :name, :age, :rentals
 
   def can_use_services?
     of_age? || @parent_permission
@@ -46,6 +50,11 @@ class Person < Nameable
 
   def correct_name
     @name
+  end
+
+  def add_rentals(date, book)
+    new_rental = Rental.new(date, book, self)
+    @rentals.push(new_rental)
   end
 
   private
