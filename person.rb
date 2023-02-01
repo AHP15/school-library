@@ -1,4 +1,4 @@
-require_relative './rental.rb'
+require_relative './rental'
 
 class Nameable
   def correct_name
