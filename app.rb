@@ -86,9 +86,9 @@ class App
       when '6'
         six_option(client)
       when '7'
-        puts 'Thank you for using this app!'
         break
       end
     end
+    puts 'Thank you for using this app!'
   end
 end

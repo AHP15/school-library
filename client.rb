@@ -38,17 +38,12 @@ class Client
     person_info = { age: age, name: name }
     if number == '1'
       message = 'Has parent permission? [Y/N]: '
-      parent_permission = validate_input(
-        message,
-        ->(input) do input.upcase == 'Y' || input.upcase == 'N' end
-      )
+      parent_permission = validate_input(message, ->(input) do input.upcase == 'Y' || input.upcase == 'N' end)
       person_info[:type] = 'student'
       person_info[:parent_permission] = parent_permission.upcase == 'Y'
     else
-      message = 'specialization: '
-      specialization = validate_input(message)
+      person_info[:specialization] = validate_input('specialization: ')
       person_info[:type] = 'teacher'
-      person_info[:specialization] = 'specialization'
     end
     person_info
   end
@@ -68,31 +63,17 @@ class Client
       message += book.to_s
       message += "\n"
     end
-    index = validate_input(
-      message,
-      ->(input) do input.to_i >= 0 && input.to_i < books.length end
-    )
+    index = validate_input(message, ->(input) do input.to_i >= 0 && input.to_i < books.length end)
     book = books[index.to_i]
-
     message = "Select a book from the following list by number (not id):\n"
     people.each do |person|
       message += person.to_s
       message += "\n"
     end
-    index = validate_input(
-      message,
-      ->(input) do input.to_i >= 0 && input.to_i < people.length end
-    )
+    index = validate_input(message, ->(input) do input.to_i >= 0 && input.to_i < people.length end)
     person = people[index.to_i]
-
-    # I should add date validation here
     date = validate_input('Date: ')
-
-    {
-      person: person,
-      book: book,
-      date: date
-    }
+    { person: person, book: book, date: date }
   end
 
   def person_id()
