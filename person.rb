@@ -32,7 +32,7 @@ class TrimmerDecorator < Decorator
 end
 
 class Person < Nameable
-  def initialize(age, name = 'Unknown', parent_permission = true)
+  def initialize(age, name, parent_permission)
     super()
     @id = Random.rand(1..1000)
     @age = age
