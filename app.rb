@@ -69,25 +69,21 @@ class App
     puts list_rentals(id)
   end
 
+  def show_list(option)
+    puts list_books if option == '1'
+    puts list_people if option == '2'
+  end
+
   def run
     loop do
       client = Client.new
-      case client.option
-      when '1'
-        puts list_books
-      when '2'
-        puts list_people
-      when '3'
-        third_option(client)
-      when '4'
-        fourth_option(client)
-      when '5'
-        fifth_option(client)
-      when '6'
-        six_option(client)
-      when '7'
-        break
-      end
+      option = client.option
+      show_list(option)
+      third_option(client) if option == '3'
+      fourth_option(client) if option == '4'
+      fifth_option(client) if option == '5'
+      six_option(client) if option == '6'
+      break if option == '7'
     end
     puts 'Thank you for using this app!'
   end

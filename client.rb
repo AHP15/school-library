@@ -33,7 +33,7 @@ class Client
       'Do you wants to create a student (1) or a teacher (2)? [input the number]: ',
       ->(input) do %w[1 2].include?(input) end
     )
-    age = validate_input('Age: ', ->(input) do input.to_i.is_a? Integer end)
+    age = validate_input('Age: ', ->(input) do (input.to_i.is_a? Integer) && input.to_i != 0 end)
     name = validate_input('Name: ')
     person_info = { age: age, name: name }
     if number == '1'
