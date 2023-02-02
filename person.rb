@@ -32,8 +32,8 @@ class TrimmerDecorator < Decorator
 end
 
 class Person < Nameable
-  def initialize(age, name = 'Unknown', parent_permission: true)
-    super
+  def initialize(age, name = 'Unknown', parent_permission = true)
+    super()
     @id = Random.rand(1..1000)
     @age = age
     @name = name
@@ -41,8 +41,7 @@ class Person < Nameable
     @rentals = []
   end
 
-  attr_reader :id
-  attr_accessor :name, :age, :rentals
+  attr_accessor :id, :name, :age, :rentals
 
   def can_use_services?
     of_age? || @parent_permission
