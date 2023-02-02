@@ -28,20 +28,14 @@ class Client
     end
   end
 
-  def get_person_info()
-    message = 'Do you wants to create a student (1) or a teacher (2)? [input the number]: '
-    number = validate_input(message, ->(input) do %w[1 2].include?(input) end)
-
-    message = 'Age: '
-    age = validate_input(message, ->(input) do input.to_i.is_a? Integer end)
-
-    message = 'Name: '
-    name = validate_input(message)
-
-    person_info = {
-      age: age,
-      name: name
-    }
+  def person_info()
+    number = validate_input(
+      'Do you wants to create a student (1) or a teacher (2)? [input the number]: ',
+      ->(input) do %w[1 2].include?(input) end
+    )
+    age = validate_input('Age: ', ->(input) do input.to_i.is_a? Integer end)
+    name = validate_input('Name: ')
+    person_info = { age: age, name: name }
     if number == '1'
       message = 'Has parent permission? [Y/N]: '
       parent_permission = validate_input(
@@ -56,11 +50,10 @@ class Client
       person_info[:type] = 'teacher'
       person_info[:specialization] = 'specialization'
     end
-
     person_info
   end
 
-  def get_book_info()
+  def book_info()
     title = validate_input('Title: ')
     author = validate_input('Author: ')
     {
@@ -69,7 +62,7 @@ class Client
     }
   end
 
-  def get_rental_info(books, people)
+  def rental_info(books, people)
     message = "Select a book from the following list by number:\n"
     books.each do |book|
       message += book.to_s
@@ -102,7 +95,7 @@ class Client
     }
   end
 
-  def get_person_id()
+  def person_id()
     message = 'ID of person: '
     validate_input(message, ->(input) do input.to_i.is_a? Integer end)
   end

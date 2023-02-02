@@ -24,7 +24,6 @@ class App
   end
 
   def create_person(person)
-    new_person = nil
     new_person = if person[:type] == 'student'
                    Student.new(person[:age], person[:name], person[:parent_permission])
                  else
@@ -39,44 +38,56 @@ class App
   end
 
   def create_rental(date, book, person)
-    id = person.instance_variable_get(:@id)
-    if @rentals[:id]
+    if @rentals[person.instance_variable_get(:@id)]
       @rentals[:id].push(Rental.new(date, book, person))
     else
       @rentals[:id] = [Rental.new(date, book, person)]
     end
   end
 
+  def third_option(client)
+    person = client.person_info
+    create_person(person)
+    puts 'Person created successfully'
+  end
+
+  def fourth_option(client)
+    book = client.book_info
+    create_book(book)
+    puts 'Book created successfully'
+  end
+
+  def fifth_option(client)
+    rental = client.rental_info(@books, @people)
+    create_rental(rental[:date], rental[:book], rental[:person])
+    puts 'Rental created successfully'
+  end
+
+  def six_option(client)
+    id = client.person_id
+    puts 'Rentals:'
+    puts list_rentals(id)
+  end
+
   def run
     loop do
       client = Client.new
-
       case client.option
       when '1'
         puts list_books
       when '2'
         puts list_people
       when '3'
-        person = client.get_person_info
-        create_person(person)
-        puts 'Person created successfully'
+        third_option(client)
       when '4'
-        book = client.get_book_info
-        create_book(book)
-        puts 'Book created successfully'
+        fourth_option(client)
       when '5'
-        rental = client.get_rental_info(@books, @people)
-        create_rental(rental[:date], rental[:book], rental[:person])
-        puts 'Rental created successfully'
+        fifth_option(client)
       when '6'
-        id = client.get_person_id
-        puts 'Rentals:'
-        puts list_rentals(id)
+        six_option(client)
       when '7'
         puts 'Thank you for using this app!'
         break
-      else
-        puts 'Invalid number!'
       end
     end
   end
