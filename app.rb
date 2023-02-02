@@ -19,17 +19,17 @@ class App
     @people
   end
 
-  def list_rentals(id)
+  def list_rentals(_id)
     @rentals[:id]
   end
 
   def create_person(person)
     new_person = nil
-    if person[:type] == 'student'
-      new_person = Student.new(person[:age], person[:name], person[:parent_permission])
-    else
-      new_person = Teacher.new(person[:age], person[:specialization], person[:name])
-    end
+    new_person = if person[:type] == 'student'
+                   Student.new(person[:age], person[:name], person[:parent_permission])
+                 else
+                   Teacher.new(person[:age], person[:specialization], person[:name])
+                 end
 
     @people.push(new_person)
   end
@@ -48,20 +48,20 @@ class App
   end
 
   def run
-    while true
-      client = Client.new()
+    loop do
+      client = Client.new
 
       case client.option
       when '1'
-        puts list_books()
+        puts list_books
       when '2'
-        puts list_people()
+        puts list_people
       when '3'
-        person = client.get_person_info()
+        person = client.get_person_info
         create_person(person)
         puts 'Person created successfully'
       when '4'
-        book = client.get_book_info()
+        book = client.get_book_info
         create_book(book)
         puts 'Book created successfully'
       when '5'
@@ -69,7 +69,7 @@ class App
         create_rental(rental[:date], rental[:book], rental[:person])
         puts 'Rental created successfully'
       when '6'
-        id = client.get_person_id()
+        id = client.get_person_id
         puts 'Rentals:'
         puts list_rentals(id)
       when '7'

@@ -20,35 +20,33 @@ class Client
     @option = gets.chomp
   end
 
-  def validate_input(message, validation = lambda do |input| input != '' end)
-    while true
+  def validate_input(message, validation = ->(input) do input != '' end)
+    loop do
       print message
       input = gets.chomp
-      if validation.call(input)
-        return input
-      end
+      return input if validation.call(input)
     end
   end
 
   def get_person_info()
     message = 'Do you wants to create a student (1) or a teacher (2)? [input the number]: '
-    number = validate_input(message, lambda do |input| input == '1' || input == '2' end)
-    
+    number = validate_input(message, ->(input) do %w[1 2].include?(input) end)
+
     message = 'Age: '
-    age = validate_input(message, lambda do |input| input.to_i.is_a? Integer end)
+    age = validate_input(message, ->(input) do input.to_i.is_a? Integer end)
 
     message = 'Name: '
     name = validate_input(message)
 
     person_info = {
       age: age,
-      name: name,
+      name: name
     }
     if number == '1'
       message = 'Has parent permission? [Y/N]: '
       parent_permission = validate_input(
         message,
-        lambda do |input| input.upcase == 'Y' || input.upcase == 'N' end
+        ->(input) do input.upcase == 'Y' || input.upcase == 'N' end
       )
       person_info[:type] = 'student'
       person_info[:parent_permission] = parent_permission.upcase == 'Y'
@@ -65,12 +63,10 @@ class Client
   def get_book_info()
     title = validate_input('Title: ')
     author = validate_input('Author: ')
-    book_info = {
+    {
       title: title,
       author: author
     }
-
-    book_info
   end
 
   def get_rental_info(books, people)
@@ -81,7 +77,7 @@ class Client
     end
     index = validate_input(
       message,
-      lambda do |input| input.to_i >= 0 && input.to_i < books.length end
+      ->(input) do input.to_i >= 0 && input.to_i < books.length end
     )
     book = books[index.to_i]
 
@@ -92,24 +88,22 @@ class Client
     end
     index = validate_input(
       message,
-      lambda do |input| input.to_i >= 0 && input.to_i < people.length end
+      ->(input) do input.to_i >= 0 && input.to_i < people.length end
     )
     person = people[index.to_i]
-    
+
     # I should add date validation here
     date = validate_input('Date: ')
 
-    rental_info = {
+    {
       person: person,
       book: book,
       date: date
     }
-    rental_info
   end
 
   def get_person_id()
     message = 'ID of person: '
-    id = validate_input(message, lambda do |input| input.to_i.is_a? Integer end)
-    id
+    validate_input(message, ->(input) do input.to_i.is_a? Integer end)
   end
 end
