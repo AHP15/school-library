@@ -64,7 +64,7 @@ class Client
     end
     index = validate_input(message, ->(input) do input.to_i >= 0 && input.to_i < books.length end)
     book = books[index.to_i]
-    message = "Select a book from the following list by number (not id):\n"
+    message = "Select a person from the following list by number (not id):\n"
     people.each_with_index do |person, i|
       message += "#{i}) #{person}\n"
     end
