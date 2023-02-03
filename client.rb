@@ -59,16 +59,14 @@ class Client
 
   def rental_info(books, people)
     message = "Select a book from the following list by number:\n"
-    books.each do |book|
-      message += book.to_s
-      message += "\n"
+    books.each_with_index do |book, i|
+      message += "#{i}) #{book}\n"
     end
     index = validate_input(message, ->(input) do input.to_i >= 0 && input.to_i < books.length end)
     book = books[index.to_i]
     message = "Select a book from the following list by number (not id):\n"
-    people.each do |person|
-      message += person.to_s
-      message += "\n"
+    people.each_with_index do |person, i|
+      message += "#{i}) #{person}\n"
     end
     index = validate_input(message, ->(input) do input.to_i >= 0 && input.to_i < people.length end)
     person = people[index.to_i]
