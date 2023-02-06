@@ -39,9 +39,9 @@ class App
 
   def create_rental(date, book, person)
     if @rentals[person.instance_variable_get(:@id)]
-      @rentals[:id].push(Rental.new(date, book, person))
+      @rentals[person.instance_variable_get(:@id)].push(Rental.new(date, book, person))
     else
-      @rentals[:id] = [Rental.new(date, book, person)]
+      @rentals[person.instance_variable_get(:@id)] = [Rental.new(date, book, person)]
     end
   end
 
