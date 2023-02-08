@@ -1,7 +1,12 @@
+require_relative './models/student'
+require_relative './models/teacher'
+require_relative './models/book'
+require_relative './models/rental'
+
 class Client
   attr_reader :option
 
-  def initialize()
+  def initialize
     options = [
       'List all books',
       'List all people',
@@ -28,50 +33,60 @@ class Client
     end
   end
 
-  def person_info()
+  def person_info
     number = validate_input(
       'Do you wants to create a student (1) or a teacher (2)? [input the number]: ',
       ->(input) do %w[1 2].include?(input) end
     )
     age = validate_input('Age: ', ->(input) do (input.to_i.is_a? Integer) && input.to_i != 0 end)
     name = validate_input('Name: ')
-    person_info = { age: age, name: name }
+
     if number == '1'
-      message = 'Has parent permission? [Y/N]: '
-      parent_permission = validate_input(message, ->(input) do input.upcase == 'Y' || input.upcase == 'N' end)
-      person_info[:type] = 'student'
-      person_info[:parent_permission] = parent_permission.upcase == 'Y'
+      parent_permission = student_info
+      Student.new(age, name, parent_permission.upcase == 'Y')
     else
-      person_info[:specialization] = validate_input('specialization: ')
-      person_info[:type] = 'teacher'
+      specialization = teacher_info
+      Teacher.new(age, specialization, name)
     end
-    person_info
   end
 
-  def book_info()
+  def student_info
+    message = 'Has parent permission? [Y/N]: '
+    validate_input(message, ->(input) do input.upcase == 'Y' || input.upcase == 'N' end)
+  end
+
+  def teacher_info
+    validate_input('specialization: ')
+  end
+
+  def book_info
     title = validate_input('Title: ')
     author = validate_input('Author: ')
-    {
-      title: title,
-      author: author
-    }
+    Book.new(title, author)
   end
 
   def rental_info(books, people)
     message = "Select a book from the following list by number:\n"
     books.each_with_index do |book, i|
-      message += "#{i}) #{book}\n"
+      message += "#{i}) Title: #{book['title']}, Author: #{book['author']}\n"
     end
     index = validate_input(message, ->(input) do input.to_i >= 0 && input.to_i < books.length end)
     book = books[index.to_i]
     message = "Select a person from the following list by number (not id):\n"
     people.each_with_index do |person, i|
-      message += "#{i}) #{person}\n"
+      info = "ID: #{person['id']} name: #{person['name']}, age: #{person['age']}"
+      message += if person['parent_permission']
+                   "#{i}) [Student]: #{info}, has permission: #{person['parent_permission']}\n"
+                 else
+                   "[Teacher]: #{info}, specialization: #{person['specialization']}"
+                 end
     end
     index = validate_input(message, ->(input) do input.to_i >= 0 && input.to_i < people.length end)
     person = people[index.to_i]
     date = validate_input('Date: ')
-    { person: person, book: book, date: date }
+
+    rental = Rental.new(date, book, person)
+    { id: person['id'], rental: rental }
   end
 
   def person_id()
