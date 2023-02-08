@@ -97,4 +97,19 @@ class App
       puts list_people
     end
   end
+
+  def run
+    loop do
+      client = Client.new
+      list_data(client.option)
+      create_person(client.person_info) if client.option == '3'
+      create_book(client.book_info) if client.option == '4'
+      if client.option == '5'
+        data = client.rental_info(@books, @people)
+        create_rental(data[:id], data[:rental])
+      end
+      puts list_rentals(client.person_id) if client.option == '6'
+      break if client.option == '7'
+    end
+  end
 end
