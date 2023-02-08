@@ -68,13 +68,18 @@ class Client
   def rental_info(books, people)
     message = "Select a book from the following list by number:\n"
     books.each_with_index do |book, i|
-      message += "#{i}) #{book}\n"
+      message += "#{i}) Title: #{book['title']}, Author: #{book['author']}\n"
     end
     index = validate_input(message, ->(input) do input.to_i >= 0 && input.to_i < books.length end)
     book = books[index.to_i]
     message = "Select a person from the following list by number (not id):\n"
     people.each_with_index do |person, i|
-      message += "#{i}) #{person}\n"
+      info = "ID: #{person['id']} name: #{person['name']}, age: #{person['age']}"
+      message += if person['parent_permission']
+                   "#{i}) [Student]: #{info}, has permission: #{person['parent_permission']}\n"
+                 else
+                   "[Teacher]: #{info}, specialization: #{person['specialization']}"
+                 end
     end
     index = validate_input(message, ->(input) do input.to_i >= 0 && input.to_i < people.length end)
     person = people[index.to_i]

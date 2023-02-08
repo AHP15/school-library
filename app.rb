@@ -53,7 +53,7 @@ class App
     hash = {}
     instance.instance_variables.each do |var|
       key = var.to_s.delete('@').to_sym
-      hash[key] = instance.instance_variable_get(var)
+      hash[key.to_s] = instance.instance_variable_get(var)
     end
     hash
   end
@@ -72,10 +72,12 @@ class App
     else
       create_student(person)
     end
+    puts 'Person created successfully!'
   end
 
   def create_book(book)
     @books << instance_to_hash(book)
+    puts 'Book created successfully!'
   end
 
   def create_rental(id, rental)
@@ -84,34 +86,32 @@ class App
     else
       @rentals[id] = [instance_to_hash(rental)]
     end
+    puts 'Rental created successfully!'
+  end
+
+  def list_data(option)
+    case option
+    when '1'
+      puts list_books
+    when '2'
+      puts list_people
   end
 
   def run
     loop do
       client = Client.new
+      list_data(client.option)
       case client.option
-      when '1'
-        puts list_books
-      when '2'
-        puts list_people
       when '3'
-        person = client.person_info
-        create_person(person)
-        puts 'Person created successfully!'
+        create_person(client.person_info)
       when '4'
-        book = client.book_info
-        create_book(book)
-        puts 'Book created successfully!'
+        create_book(client.book_info)
       when '5'
         data = client.rental_info(@books, @people)
         create_rental(data[:id], data[:rental])
-        puts 'Rental created successfully!'
       when '6'
-        id = client.person_id
-        puts list_rentals(id)
-      else
-        puts 'Thank you for using this app!'
-        store_data
+        puts list_rentals(client.person_id)
+      when '7'
         break
       end
     end
