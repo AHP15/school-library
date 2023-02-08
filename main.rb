@@ -5,6 +5,6 @@ def main
   app.run
   puts 'Thank you for using this app!'
   app.store_data
-# end
+end
 
 main
