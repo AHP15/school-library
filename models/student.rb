@@ -1,7 +1,12 @@
 require_relative './person'
 
 class Student < Person
-  attr_reader :classroom
+  attr_reader :classroom, :parent_permission
+
+  def initialize(age, name, parent_permission)
+    super(age, name, parent_permission)
+    @parent_permission = parent_permission
+  end
 
   def classroom=(classroom)
     @classroom = classroom
@@ -12,7 +17,4 @@ class Student < Person
     '¯(ツ)/¯'
   end
 
-  def to_s
-    "[Student]: ID: #{@id} name: #{@name}, age: #{@age}, has permission: #{@parent_permission}"
-  end
 end
