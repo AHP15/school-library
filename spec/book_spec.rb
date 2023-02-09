@@ -1,4 +1,4 @@
-require_relative './helper_spec.rb'
+require_relative './helper_spec'
 
 describe Book do
   before :each do
