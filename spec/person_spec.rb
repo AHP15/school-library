@@ -60,7 +60,35 @@ describe Decorator do
 end
 
 describe CapitalizeDecorator do
+  before :all do
+    @person = Person.new(15, 'person', false)
+    @capitalizer = CapitalizeDecorator.new(@person)
+  end
+
+  context 'Capitalize class' do
+    it('should be an instance of CapitalizeDecorator') do
+      expect(@capitalizer).to be_an_instance_of(CapitalizeDecorator)
+    end
+
+    it('Should capitalize person name') do
+      expect(@capitalizer.correct_name).to eq('Person')
+    end
+  end
 end
 
 describe TrimmerDecorator do
+  before :all do
+    @person = Person.new(15, 'Alexandarion', false)
+    @trimmer = TrimmerDecorator.new(@person)
+  end
+
+  context 'Capitalize class' do
+    it('should be an instance of TrimmerDecorator') do
+      expect(@trimmer).to be_an_instance_of(TrimmerDecorator)
+    end
+
+    it('Should trim person name') do
+      expect(@trimmer.correct_name).to eq('Alexandari')
+    end
+  end
 end
