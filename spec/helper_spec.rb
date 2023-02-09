@@ -1,0 +1,6 @@
+require_relative '../models/book'
+require_relative '../models/classroom'
+require_relative '../models/person'
+require_relative '../models/rental'
+require_relative '../models/student'
+require_relative '../models/teacher'
